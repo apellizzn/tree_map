@@ -1,0 +1,16 @@
+{
+  "name": "tree_map",
+  "version": "0.0.1",
+  "scripts": {
+    "compile": "node_modules/typescript/bin/tsc --p ./tsconfig.json",
+    "test": "jest"
+  },
+  "dependencies": {
+    "typescript": "^3.9.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0"
+  }
+}
