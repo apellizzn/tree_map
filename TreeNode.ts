@@ -1,4 +1,4 @@
-import { Color } from "../color";
+import { Color } from "./Color";
 
 export class TreeNode<K, V> {
   key: K;

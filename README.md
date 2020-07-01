@@ -1,10 +1,12 @@
 ## TreeMap
-TreeMap implementation in Typescript using Red/Black Binary Search Trees data structure
-[Red/Black Binary Search Trees data structure](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree)
+TreeMap implementation in Typescript using
+[Red/Black Binary Search Tree data structure](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree)
 
-Self balancing tree grants search in *O(log n)*
+Self balancing tree grants search in __O(log n)__ where __n__ is the number of nodes in the tree
 
-### Usage
+### Main Usage
+
+  - add an item
 ```typescript
 let compareFun = (x, y) => {
   if(x > y) { return 1; }
@@ -18,14 +20,27 @@ superHeroes.put(3, "Hulk");
 superHeroes.put(4, "Robin");
 
 superHeroes.values() // ["Batman", "Iron man", "Hulk", "Robin"]
+```
+  - get ordered subset
+
+```typescript
 let beforeThirdPosition = superHeroes.headTreeMap(3).values() // ["Batman", "Iron man", "Hulk"]
-let afterThirdPosition = superHeroes.headTreeMap(3).values() // ["Hulk", "Robin"]
+let afterThirdPosition = superHeroes.tailTreeMap(3).values() // ["Hulk", "Robin"]
+```
+  - search
 
+```typescript
 superHeroes.search(3) // { value: "Hulk", key: 3}
+```
 
-let topSuperHero = superHeroes.max() // {value: "Batman", key: 1}
+  - get min and max
+```typescript
+let topSuperHero = superHeroes.min() // {value: "Batman", key: 1}
 let worstSuperHero = superHeroes.max() // {value: "Robin", key: 4}
+```
 
+  - map over tree
+```typescript
 superHeroes.put(5, "Superman");
 
 let wearCapes = superHeroes.map((hero) =>
@@ -34,5 +49,7 @@ let wearCapes = superHeroes.map((hero) =>
     : hero.value;
 )
 
-
+wearCapes.values() // ["Batman", "Iron man", "Hulk", "Robin", "Superman with Cape!"]
 ```
+
+

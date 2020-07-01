@@ -1,5 +1,5 @@
-import { TreeNode } from "./test/TreeNode";
-import { Color } from "./color";
+import { TreeNode } from "./TreeNode";
+import { Color } from "./Color";
 
 type Compare<K> = (a: K, b: K) => number;
 
@@ -88,7 +88,7 @@ export default class TreeMap<K, V> {
     let bothBlack = node.color == Color.BLACK && (replace == null || replace.color == Color.BLACK);
 
     if (replace == null) {
-      // v is leaf
+      // node is leaf
       if (node == this.root) {
         // node is root, making root null
 
@@ -103,7 +103,7 @@ export default class TreeMap<K, V> {
         else {
           // node or replace are red
           if (node.sibling() != null)
-            // sibling is not null, make it red"
+            // sibling is not null, make it red
             node.sibling().color = Color.RED;
         }
 
@@ -119,15 +119,15 @@ export default class TreeMap<K, V> {
     }
 
     if (node.left == null || node.right == null) {
-      // v has 1 child
+      // node has 1 child
       if (node == this.root) {
-        // node is root, assign the value of u to v, and delete u
+        // node is root, assign the value of replace to node, and delete replace
         node.value = replace.value;
         node.key = replace.key;
         node.left = null;
         replace.right = null;
       } else {
-        // Detach node from tree and move u up
+        // Detach node from tree and move replace up
         if (node == node.parent.left) {
           parent.left = replace;
         } else {
@@ -136,10 +136,10 @@ export default class TreeMap<K, V> {
         replace.parent = parent;
 
         if (bothBlack) {
-          // u and node both black, fix double black at u
+          // replace and node both black, fix double black at u
           this.fixDoubleBlack(replace);
         } else {
-          // u or node red, color u black
+          // replace or node red, color replace black
           replace.color = Color.BLACK;
         }
       }
