@@ -25,9 +25,9 @@ describe('TreeMap', () => {
 
     it('inserts data in order', () => {
       tree = new TreeMap<Number, Number>(cmp);
+      tree.put(0, 0);
       tree.put(1, 1);
       tree.put(2, 2);
-      tree.put(0, 0);
       expect(tree.getSize()).toBe(3);
       expect(tree.keys()).toEqual([0, 1, 2])
     })
@@ -54,6 +54,36 @@ describe('TreeMap', () => {
       tree.put(-6, -6);
       expect(tree.getSize()).toBe(6);
       expect(tree.keys()).toEqual([-6, -5, -4, 0, 1, 2])
+    })
+  })
+
+  describe('remove', () => {
+    it('works for an empty tree map', () => {
+      tree = new TreeMap<Number, Number>(cmp);
+      tree.put(1, 1);
+      tree.remove(1);
+      expect(tree.getSize()).toBe(0);
+    })
+
+    it('works for a tree of height 1', () => {
+      tree = new TreeMap<Number, Number>(cmp);
+      tree.put(1, 1);
+      tree.put(2, 2);
+      tree.remove(2)
+      expect(tree.getSize()).toBe(1);
+    })
+
+    it('self balance', () => {
+      tree = new TreeMap<Number, Number>(cmp);
+      tree.put(1, 1);
+      tree.put(2, 2);
+      tree.put(0, 0);
+      tree.put(4, 4);
+      tree.put(5, 5);
+      tree.put(6, 6);
+      tree.remove(4)
+      expect(tree.getSize()).toBe(5);
+      expect(tree.keys()).toEqual([0, 1, 2, 5, 6])
     })
   })
 
@@ -87,18 +117,18 @@ describe('TreeMap', () => {
     })
   })
 
-  describe('maxKey', () => {
-    it("keep tracks of max key", () => {
+  describe('max', () => {
+    it("keep tracks of max", () => {
       tree = new TreeMap<Number, Number>(cmp);
       tree.put(1, 1);
-      expect(tree.maxKey()).toBe(1)
+      expect(tree.max().key).toBe(1)
       tree.put(2, 2);
       tree.put(0, 0);
-      expect(tree.maxKey()).toBe(2)
+      expect(tree.max().key).toBe(2)
       tree.put(4, 4);
       tree.put(5, 5);
       tree.put(6, 6);
-      expect(tree.maxKey()).toBe(6)
+      expect(tree.max().key).toBe(6)
     })
   })
 
@@ -161,19 +191,56 @@ describe('TreeMap', () => {
     })
   })
 
-  describe('minKey', () => {
-
+  describe('min', () => {
     it("keep tracks of min key", () => {
       tree = new TreeMap<Number, Number>(cmp);
       tree.put(1, 1);
-      expect(tree.minKey()).toBe(1)
+      expect(tree.min().key).toBe(1)
       tree.put(2, 2);
       tree.put(0, 0);
-      expect(tree.minKey()).toBe(0)
+      expect(tree.min().key).toBe(0)
       tree.put(4, 4);
       tree.put(5, 5);
       tree.put(-6, -6);
-      expect(tree.minKey()).toBe(-6)
+      expect(tree.min().key).toBe(-6)
+    })
+  })
+
+  describe('map', () => {
+    it('map over nodes', () => {
+      tree = new TreeMap<Number, Number>(cmp);
+      tree.put(1, 1);
+      tree.put(2, 2);
+      tree.put(0, 0);
+      expect(tree.map((x) => `${x.value + 1}`).values()).toEqual(["1", "2", "3"]);
+    })
+  })
+
+  describe('headTreeMap', () => {
+    it("returns a new tree map with all lower keys", () => {
+      tree = new TreeMap<Number, Number>(cmp);
+      tree.put(2, 2);
+      tree.put(1, 1);
+      tree.put(3, 3);
+      tree.put(0, 0);
+      tree.put(4, 4);
+      let newTree = tree.headTreeMap(2);
+      expect(newTree.getSize()).toBe(3)
+      expect(newTree.keys()).toEqual([0, 1, 2])
+    })
+  })
+
+  describe('tailTreeMap', () => {
+    it("returns a new tree map with all higher keys", () => {
+      tree = new TreeMap<Number, Number>(cmp);
+      tree.put(2, 2);
+      tree.put(1, 1);
+      tree.put(3, 3);
+      tree.put(0, 0);
+      tree.put(4, 4);
+      let newTree = tree.tailTreeMap(2);
+      expect(newTree.getSize()).toBe(3)
+      expect(newTree.keys()).toEqual([2, 3, 4])
     })
   })
 })
